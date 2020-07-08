@@ -1,5 +1,5 @@
 #![allow(dead_code)]
-struct Http {
+pub struct Http {
     client: reqwest::Client
 }
 
@@ -40,7 +40,7 @@ impl Http {
 
     }
 
-    async fn run(&mut self, authorization_code: &str) -> Result<(), reqwest::Error> {
+    pub async fn run(&mut self, authorization_code: &str) -> Result<(), reqwest::Error> {
         self.client = reqwest::Client::new();
         let code = self.resolve_authorization_code(authorization_code).await?;
         eprintln!("{:?}", code);
