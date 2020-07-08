@@ -5,9 +5,9 @@ authors = ["creator1372 <27164429+creator1372@users.noreply.github.com>"]
 edition = "2018"
 license = "MIT"
 description = "Fortnite api in rust"
-homepage = "TBD"
-documentation = "TBD"
-repository = "TBD"
+homepage = "https://github.com/creator1372/fortnite"
+documentation = "https://github.com/creator1372/fortnite/blob/master/TBD"
+repository = "https://github.com/creator1372/fortnite/"
 readme = "TBD"
 keywords = ["fortnite", "api"]
 
