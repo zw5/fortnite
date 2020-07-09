@@ -12,14 +12,14 @@ pub struct Http {
     headers: HeaderMap,
 }
 
-pub struct Client {
+pub struct Client<'a> {
     pub http: Http,
-    pub auth: auth::InternalAuthorizationCodeAuth,
+    pub auth: auth::InternalAuthorizationCodeAuth<'a>,
 }
 
 impl Http {
 
-    async fn resolve_authorization_code(self, authorization_code: &str) -> Result<reqwest::Response, errors::HttpError> {
+    pub async fn resolve_authorization_code(self, authorization_code: &str) -> Result<reqwest::Response, errors::HttpError> {
         let url = "https://account-public-service-prod.ol.epicgames.com/account/api/oauth/token";
         let post_form = templates::authorization_code(authorization_code);
         match self.post(url, post_form).await {
@@ -28,16 +28,20 @@ impl Http {
         }
     }
 
-    pub async fn post(self, url: &str, body: templates::ReqwestBody) -> std::result::Result<reqwest::Response, reqwest::Error> {
+    pub async fn post(self, url: &str, body: templates::ReqwestBody) -> std::result::Result<reqwest::Response, errors::HttpError> {
         let http_client = &self.http_client;
 
-        return http_client.post(url)
+        let res = http_client.post(url)
             .json(&body)
             .headers(self.headers)
             .send()
             .await;
 
-
+        match res {
+            Ok(x) => x,
+            Err(e) => Err(errors::HttpError),
+        
+        }
     }
 
 
@@ -54,7 +58,7 @@ impl Http {
 
 }
 
-impl Client {
+impl Client<'_> {
     pub fn new(auth: auth::InternalAuthorizationCodeAuth) -> Client {
         Client {
             http: Http::new(),
@@ -62,7 +66,7 @@ impl Client {
         }
     }
 
-    pub async fn start(&mut self, authorization: auth::InternalAuthorizationCodeAuth) {
+    pub async fn start(&mut self, authorization: auth::InternalAuthorizationCodeAuth<'static>) {
         self.auth = authorization;
 
     }

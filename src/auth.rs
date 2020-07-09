@@ -1,17 +1,18 @@
+#![allow(dead_code)]
 use crate::http::Client;
-use crate::http;
 use std::option::Option;
+use errors;
 
-struct Auth {
+struct Auth<'a> {
     ios_token: String,
     launcher_token: String,
     fortnite_token: String,
-    client: Option<*mut Client>,
+    client: Option<&'a Client<'a>>,
     bearer_token: String,
 }
 
-impl Default for Auth {
-    fn default() -> Auth {
+impl Default for Auth<'_> {
+    fn default() -> Auth<'static> {
         Auth {
             ios_token: "MzQ0NmNkNzI2OTRjNGE0NDg1ZDgxYjc3YWRiYjIxNDE6OTIwOWQ0YTVlMjVhNDU3ZmI5YjA3NDg5ZDMxM2I0MWE=".to_string(),
             launcher_token: "MzRhMDJjZjhmNDQxNGUyOWIxNTkyMTg3NmRhMzZmOWE6ZGFhZmJjY2M3Mzc3NDUwMzlkZmZlNTNkOTRmYzc2Y2Y=".to_string(),
@@ -22,13 +23,13 @@ impl Default for Auth {
     }
 }
 
-pub struct InternalAuthorizationCodeAuth{
-    auth: Auth,
+pub struct InternalAuthorizationCodeAuth<'a>{
+    auth: Auth<'a>,
     code: String,
-    client: Option<*mut Client>,
+    client: Option<&'a Client<'a>>,
 }
 
-impl InternalAuthorizationCodeAuth {
+impl InternalAuthorizationCodeAuth<'_> {
     fn new(&mut self, auth_code: &str) -> InternalAuthorizationCodeAuth {
         Self {
             auth: Auth::default(),
@@ -37,17 +38,20 @@ impl InternalAuthorizationCodeAuth {
         }
     }
 
-     pub fn setup_internal(mut self, client: *mut Client) {
+     pub fn setup_internal(mut self, client: &'static Client) {
         self.client = Some(client);
     }
 
-    fn authenticate(&mut self) {
-        let _http = match &(*self.client).http {
-            Some(http) => http,
-            None => panic!("Internals weren't set up.")
-        };
-
-
-
+    async fn authenticate(&mut self) -> std::result::Result<(), errors::HttpError>{
+        if let Some(c) = self.client {
+            self.client.expect("No client to authorize.");
+          } else {
+            return errors::HttpError
+          }
+        let result = self.client.expect("No client to authorize").http.resolve_authorization_code(&self.code).await;
+        match result {
+            Ok(result) => result,
+            Err(e) => Err(errors::HttpError)
+        }
     }
 }
