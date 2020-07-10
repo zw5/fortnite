@@ -10,7 +10,8 @@ use serde_json::to_string;
 pub struct Http {
     http_client: reqwest::Client,
     headers: HeaderMap,
-    auth_details: Option<AuthDetails>
+    auth_details: Option<AuthDetails>,
+    pub ready: bool
 }
 
 impl Http {
@@ -18,7 +19,8 @@ impl Http {
         Http {
             http_client: Client::new(),
             headers: HeaderMap::new(),
-            auth_details: None
+            auth_details: None,
+            ready: false
         }
     }
     async fn get(&self, url: &str) -> std::result::Result<reqwest::Response, reqwest::Error>{
@@ -42,6 +44,7 @@ impl Http {
         let str_token = &details.access_token[..];
         self.headers.insert("Authorization", HeaderValue::from_str(str_token).unwrap());
         println!("{:?}", &details);
+        self.ready = true;
         Ok(details)
     }
 

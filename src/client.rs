@@ -7,6 +7,7 @@ pub struct Client {
     http_client: http::Http,
     auth_client: auth::Authorization,
     xmpp_client: xmpp::XmppClient,
+    ready: bool,
 }
 
 impl Client {
@@ -15,11 +16,13 @@ impl Client {
             http_client: http::Http::new(),
             auth_client: auth::Authorization::new(),
             xmpp_client: xmpp::XmppClient::new(),
+            ready: false,
         }
     }
 
-    async fn authenticate(self, authorization_code: String) -> Result<(), reqwest::Error> {
+    async fn authenticate(mut self, authorization_code: String) -> Result<(), reqwest::Error> {
         self.http_client.resolve_exchange_code(&authorization_code.as_str()).await?;
+        self.ready = true;
         Ok(())
     }
 
