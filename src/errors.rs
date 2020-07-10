@@ -12,14 +12,14 @@ impl fmt::Display for HttpError {
     }
 }
 
-pub type ErrorResult<T> = std::result::Result<T, InternalError>;
+pub type InternalResult<T> = std::result::Result<T, InternalError>;
 
 #[derive(Debug, Clone)]
 pub struct InternalError;
 
 impl fmt::Display for InternalError {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        write!(f, "Http exception when making request.")
+        write!(f, "Internal library error.")
     }
 }
 
@@ -30,6 +30,17 @@ pub struct AuthorizationCodeError;
 
 impl fmt::Display for AuthorizationCodeError {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        write!(f, "Http exception when making request.")
+        write!(f, "Invalid exchange code")
+    }
+}
+
+pub type RefreshTokenResult<T> = std::result::Result<T, RefreshTokenError>;
+
+#[derive(Debug, Clone)]
+pub struct RefreshTokenError;
+
+impl fmt::Display for RefreshTokenError {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        write!(f, "Invalid exchange code")
     }
 }
