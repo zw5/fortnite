@@ -12,7 +12,7 @@ impl Authorization {
             details: None
         }
     }
-    fn set_details(&mut self, details: AuthDetails) -> Result<(), errors::InternalError> {
+    pub fn set_details(&mut self, details: AuthDetails) -> Result<(), errors::InternalError> {
         self.details = Some(details);
         Ok(())
     }

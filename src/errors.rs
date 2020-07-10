@@ -22,3 +22,14 @@ impl fmt::Display for InternalError {
         write!(f, "Http exception when making request.")
     }
 }
+
+pub type AuthorizationResult<T> = std::result::Result<T, AuthorizationCodeError>;
+
+#[derive(Debug, Clone)]
+pub struct AuthorizationCodeError;
+
+impl fmt::Display for AuthorizationCodeError {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        write!(f, "Http exception when making request.")
+    }
+}
