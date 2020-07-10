@@ -23,6 +23,30 @@ pub struct AuthDetails {
     device_id: String
 }
 
+#[derive(Debug, Deserialize)]
+#[serde(rename_all = "snake_case")]
+pub struct UserDetails {
+    id: String,
+    display_name: String,
+    name: String,
+    email: String,
+    failed_login_attempts: i32,
+    "lastLogin": String,
+    "numberOfDisplayNameChanges": 0,
+    "ageGroup": "UNKNOWN",
+    "headless": false,
+    "country": "NO",
+    "lastName": "Bot",
+    "preferredLanguage": "en",
+    "canUpdateDisplayName": true,
+    "tfaEnabled": false,
+    "emailVerified": true,
+    "minorVerified": false,
+    "minorExpected": false,
+    "minorStatus": "UNKNOWN",
+      }
+}
+
 pub fn get_exchange_code_form(code: String) -> HashMap<String, String> {
     let mut hash_map = HashMap::new();
     hash_map.insert("grant_type".into(), "authorization_code".into());

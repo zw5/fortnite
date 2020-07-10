@@ -17,5 +17,5 @@ keywords = ["fortnite", "api"]
 reqwest = { version = "0.10", features = ["json"] }
 tokio = { version = "0.2", features = ["full"] }
 serde = { version = "1.0.114", features = ["derive"] }
-tokio-tungstenite = "*"
+tokio-tungstenite = "0.10"
 serde_json = "1.0"
