@@ -1,27 +1,28 @@
 #![allow(dead_code)]
-use serde::{Serialize, Deserialize};
 use std::collections::HashMap;
+use serde::{Deserialize, Serialize};
 
-#[derive(Debug, Serialize, Deserialize)]
-pub struct ReqwestBody {
-    body: HashMap<String, String>
+#[derive(Debug, Deserialize, Serialize)]
+#[serde(rename_all = "snake_case")]
+pub struct AuthDetails {
+    access_token: String,
+    expires_in: i64,
+    expires_at: String,
+    token_type: String,
+    refresh_token: String,
+    refresh_expires_at: String,
+    account_id: String,
+    client_id: String,
+    internal_client: bool,
+    client_service: String,
+    app: String,
+    in_app_id: String,
+    device_id: String
 }
 
-impl ReqwestBody {
-    fn new(body: HashMap<String, String>) -> ReqwestBody {
-        ReqwestBody {
-            body: body
-        }
-    }
-}
-
-pub fn authorization_code(code: &str) -> ReqwestBody{
+pub fn get_exchange_code_form(code: String) -> HashMap<String, String> {
     let mut hash_map = HashMap::new();
-    hash_map.insert("grant_type".to_string(),
-            "authorization_code".to_string()).unwrap();
-    hash_map.insert(
-        "code".to_string(), code.to_string()).unwrap();
-    ReqwestBody {
-        body: hash_map
-    }
+    hash_map.insert("grant_type".into(), "authorization_code".into());
+    hash_map.insert("code".into(), code);
+    hash_map
 }
