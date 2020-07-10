@@ -1,6 +1,6 @@
 [package]
 name = "fortnite"
-version = "0.1.3"
+version = "0.1.4"
 authors = ["creator1372 <27164429+creator1372@users.noreply.github.com>"]
 edition = "2018"
 license = "MIT"
