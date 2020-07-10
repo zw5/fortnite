@@ -1,6 +1,6 @@
 [package]
 name = "fortnite"
-version = "0.1.4"
+version = "0.1.5"
 authors = ["creator1372 <27164429+creator1372@users.noreply.github.com>"]
 edition = "2018"
 license = "MIT"
@@ -17,4 +17,5 @@ keywords = ["fortnite", "api"]
 reqwest = { version = "0.10", features = ["json"] }
 tokio = { version = "0.2", features = ["full"] }
 serde = { version = "1.0.114", features = ["derive"] }
+tokio-tungstenite = "*"
 serde_json = "1.0"
