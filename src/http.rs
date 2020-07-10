@@ -41,7 +41,7 @@ impl Http {
         let string_code = code.into();
         self.headers.insert("Authorization", HeaderValue::from_str(templates::FORTNITE_TOKEN).unwrap());
         let details: templates::AuthDetails = self.post(epicgames_url, templates::get_exchange_code_form(string_code)).await?.json().await?;
-        let str_token = &details.access_token[..];
+        let str_token = &details.access_token;
         self.headers.insert("Authorization", HeaderValue::from_str(str_token).unwrap());
         println!("{:?}", &details);
         self.ready = true;
