@@ -3,9 +3,9 @@ use std::collections::HashMap;
 use serde::{Deserialize, Serialize};
 use reqwest::header::{HeaderValue, HeaderMap};
 
-pub const FORTNITE_TOKEN: &str = "ZWM2ODRiOGM2ODdmNDc5ZmFkZWEzY2IyYWQ4M2Y1YzY6ZTFmMzFjMjExZjI4NDEzMTg2MjYyZDM3YTEzZmM4NGQ=";
+pub const FORTNITE_TOKEN: &str = "basic ZWM2ODRiOGM2ODdmNDc5ZmFkZWEzY2IyYWQ4M2Y1YzY6ZTFmMzFjMjExZjI4NDEzMTg2MjYyZDM3YTEzZmM4NGQ=";
 
-#[derive(Debug, Deserialize, Serialize)]
+#[derive(Debug, Deserialize, Serialize, Clone)]
 #[serde(rename_all = "snake_case")]
 pub struct AuthDetails {
     pub access_token: String,
@@ -20,11 +20,10 @@ pub struct AuthDetails {
     client_service: String,
     app: String,
     in_app_id: String,
-    device_id: String
 }
 
 #[derive(Debug, Deserialize)]
-#[serde(rename_all = "snake_case")]
+#[serde(rename_all = "camelCase")]
 pub struct UserDetails {
     id: String,
     display_name: String,
@@ -43,7 +42,7 @@ pub struct UserDetails {
     email_verified: bool,
     minor_verified: bool,
     minor_expected: bool,
-    minor_status: bool,
+    minor_status: String,
 }
 
 pub fn get_exchange_code_form(code: String) -> HashMap<String, String> {
