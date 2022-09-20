@@ -15,6 +15,6 @@ keywords = ["fortnite", "api"]
 
 [dependencies]
 reqwest = { version = "0.10", features = ["json"] }
-tokio = { version = "0.2", features = ["full"] }
+tokio = { version = "1.8", features = ["full"] }
 serde = { version = "1.0.114", features = ["derive"] }
 uuid = { version = "0.8", features = ["v4"]}
