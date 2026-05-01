@@ -24,6 +24,7 @@ impl XmppClient {
         user_id
     }
     pub fn connect(self, user_id: String, auth_token: String) {
-        connect(self.jid(user_id), auth_token);
+        let _jid = self.jid(user_id);
+        let _auth_token = auth_token;
     }
 }
